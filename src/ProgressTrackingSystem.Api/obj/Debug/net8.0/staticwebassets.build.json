@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "SucPi+ax2aGvyVepk40za6F5vfWXgBqaWI0GEUJYlf0=",
+  "Source": "ProgressTrackingSystem.Api",
+  "BasePath": "_content/ProgressTrackingSystem.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

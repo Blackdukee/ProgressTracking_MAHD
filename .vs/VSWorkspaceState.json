@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\ProgressTrackingSystem.Api",
+    "\\src\\ProgressTrackingSystem.Api\\Data",
+    "\\src\\ProgressTrackingSystem.Api\\Data\\Entities",
+    "\\src\\ProgressTrackingSystem.Api\\DTOs",
+    "\\src\\ProgressTrackingSystem.Api\\DTOs\\Requests",
+    "\\src\\ProgressTrackingSystem.Api\\DTOs\\Responses",
+    "\\src\\ProgressTrackingSystem.Api\\DTOs\\Webhooks",
+    "\\src\\ProgressTrackingSystem.Api\\Services",
+    "\\src\\ProgressTrackingSystem.Api\\Services\\Interfaces"
+  ],
+  "SelectedNode": "\\src\\ProgressTrackingSystem.Api\\DTOs\\Requests\\UpdateVideoProgressRequest.cs",
+  "PreviewInSolutionExplorer": false
+}
