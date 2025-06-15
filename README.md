@@ -12,12 +12,12 @@ Tables: Enrollments, CourseProgresses, VideoProgresses
 
 External APIs:
 
-UMS API → http://localhost:5003
+UMS API
 
-Enrollment API → http://localhost:5001
+Enrollment API 
 
-CMS API → http://localhost:5002
-Sure — here’s a clean, clear, and properly formatted `README.md`-ready version of your **Progress Tracking System (PTS) API Endpoints Summary** in Markdown:
+CMS API 
+
 
 ---
 
