@@ -17,193 +17,178 @@ UMS API → http://localhost:5003
 Enrollment API → http://localhost:5001
 
 CMS API → http://localhost:5002
+Sure — here’s a clean, clear, and properly formatted `README.md`-ready version of your **Progress Tracking System (PTS) API Endpoints Summary** in Markdown:
 
+---
 
-📑 Endpoints Overview
-📘 1. Get Progress Summary
-Description:
-Retrieves a summary of a user’s learning progress, including enrolled courses, completed courses, videos watched, and total watch time.
+# 📊 Progress Tracking System (PTS) API — Endpoints Summary
 
-📍 Request
-Method: GET
+## 📖 Overview
 
-URL: /api/v1/Progress/summary/{userId}
+The **Progress Tracking System (PTS) API** is a RESTful service for tracking user progress in an educational platform. It supports functionalities like retrieving progress summaries, updating video/course progress, and handling enrollment updates via webhooks.
 
-Headers:
+---
 
-Authorization: Bearer <JWT_TOKEN> (required)
+**Base URL:**
+`http://localhost:5004/api/v1`
 
-Accept: application/json
+### 🔐 Authentication
 
-Path Parameters:
+* **JWT Token:** Required for most endpoints via header:
+  `Authorization: Bearer <JWT_TOKEN>`
 
-userId (string, required) — e.g., test-user-123
+* **Server Key:** Required for webhook endpoints via header:
+  `X-Server-Key: <SERVER_KEY>` (configured in `appsettings.json`)
 
-📦 Example Request
-http
-نسخ
-تحرير
-GET http://localhost:5004/api/v1/Progress/summary/test-user-123
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-Accept: application/json
-📤 Response
-Status: 200 OK
+---
 
-Content-Type: application/json
+## 📑 Endpoints Summary
 
-Body Example:
+| Method | Path                                   | Description                                                     | Authentication            |
+| :----- | :------------------------------------- | :-------------------------------------------------------------- | :------------------------ |
+| GET    | `/Progress/summary/{userId}`           | Retrieves a user’s progress summary.                            | JWT Token (Role: Student) |
+| POST   | `/Progress/video`                      | Updates video progress and triggers course progress update.     | JWT Token (Role: Student) |
+| GET    | `/Progress/course/{userId}/{courseId}` | Fetches detailed progress for a specific course.                | JWT Token (Role: Student) |
+| POST   | `/progress/Webhook/enrollment-updated` | Processes enrollment updates from Enrollment API.               | JWT Token, X-Server-Key   |
+| GET    | `/Progress/videos/{userId}/{courseId}` | Retrieves progress details for all videos in a specific course. | JWT Token (Role: Student) |
 
-json
-نسخ
-تحرير
+---
+
+## 📌 Endpoint Details
+
+### 1️⃣ GET `/Progress/summary/{userId}`
+
+* **Purpose:** Provides a summary of a user’s learning progress.
+* **Parameters:** `userId` (path, string, e.g., `test-user-123`)
+* **Functionality:**
+
+  * Validates JWT token role.
+  * Checks cached summary (5 min TTL).
+  * Aggregates data from database and external APIs.
+  * Falls back to mock data if necessary.
+* **Example:**
+  `GET /api/v1/Progress/summary/test-user-123`
+* **Response:** JSON with:
+
+  * `TotalCoursesEnrolled`
+  * `CompletedCourses`
+  * `TotalVideosWatched`
+  * `TotalWatchTimeHours`
+  * `RecentCourses`
+
+---
+
+### 2️⃣ POST `/Progress/video`
+
+* **Purpose:** Updates video progress for a user.
+* **Request Body:**
+
+```json
 {
   "UserId": "test-user-123",
-  "TotalCoursesEnrolled": 0,
-  "CompletedCourses": 0,
-  "TotalVideosWatched": 0,
-  "TotalWatchTimeHours": 0,
-  "RecentCourses": []
+  "VideoId": "video-789",
+  "CurrentTimeSeconds": 120,
+  "MarkAsCompleted": false
 }
-Response Schema:
+```
 
-json
-نسخ
-تحرير
-{
-  "UserId": "string",
-  "TotalCoursesEnrolled": "integer",
-  "CompletedCourses": "integer",
-  "TotalVideosWatched": "integer",
-  "TotalWatchTimeHours": "number",
-  "RecentCourses": [
-    {
-      "Id": "string",
-      "CourseId": "string",
-      "CourseTitle": "string",
-      "CompletedVideos": "integer",
-      "TotalVideos": "integer",
-      "CompletionPercentage": "number",
-      "TotalWatchTimeSeconds": "number",
-      "LastAccessed": "string (ISO 8601)"
-    }
-  ]
-}
-⚙️ Business Logic
-Validate JWT token and role (Student)
+* **Functionality:**
 
-Check cache (key: ProgressSummary_{userId})
+  * Validates JWT role.
+  * Updates video progress and triggers course progress update.
+  * Invalidates progress summary cache.
+  * Logs activity.
+* **Response:** JSON with updated video progress details.
 
-If not cached:
+---
 
-Fetch enrollments (Enrollment API or mock)
+### 3️⃣ GET `/Progress/course/{userId}/{courseId}`
 
-Query database for progresses
+* **Purpose:** Retrieves detailed progress for a specific course.
+* **Parameters:** `userId`, `courseId` (path, strings)
+* **Functionality:**
 
-Fetch course titles (CMS API or mock)
+  * Validates JWT.
+  * Queries course and video progress tables.
+  * Fetches course title from CMS API (or mock data).
+* **Example:**
+  `GET /api/v1/Progress/course/test-user-123/course-7890`
+* **Response:** JSON with:
 
-Aggregate metrics
+  * Completion percentage
+  * Completed videos
+  * Total watch time
 
-Cache result (5 minutes)
+---
 
-Log via IAuditLogService
+### 4️⃣ POST `/progress/Webhook/enrollment-updated`
 
-Return response
+* **Purpose:** Processes enrollment updates from the Enrollment API.
+* **Request Body:**
 
-🔄 Data Transformations
-Aggregate CourseProgresses & VideoProgresses
-
-Map CMS course titles
-
-Convert seconds → hours
-
-⚠️ Error Handling
-Status	Description	Response Body
-200	Success	Progress summary
-401	Unauthorized (invalid/missing token)	{ "title": "Unauthorized", "status": 401 }
-403	Forbidden (not a Student)	{ "message": "Only Students can view progress" }
-500	Internal Server Error	{ "message": "Failed to fetch progress summary" }
-
-Notes:
-
-Use mock data if UMS/Enrollment API unavailable (log warning)
-
-📘 2. Enrollment Webhook
-Description:
-Processes enrollment updates (enroll/unenroll) triggered by the Enrollment API.
-
-📍 Request
-Method: POST
-
-URL: /api/v1/progress/Webhook/enrollment-updated
-
-Headers:
-
-Authorization: Bearer <JWT_TOKEN> (required)
-
-X-Server-Key: <SERVER_KEY> (required)
-
-Content-Type: application/json
-
-Accept: */*
-
-Body:
-
-json
-نسخ
-تحرير
-{
-  "UserId": "string",
-  "CourseId": "string",
-  "Action": "string" // "enroll" or "unenroll"
-}
-📦 Example Request
-http
-نسخ
-تحرير
-POST http://localhost:5004/api/v1/progress/Webhook/enrollment-updated
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-X-Server-Key: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-Content-Type: application/json
-Accept: */*
-
-Body:
+```json
 {
   "UserId": "test-user-123",
   "CourseId": "course-7890",
   "Action": "enroll"
 }
-📤 Response
-Status: 200 OK
+```
 
-Body: {} (empty object)
+* **Functionality:**
 
-⚙️ Business Logic
-Validate X-Server-Key (from appsettings.json)
+  * Validates `X-Server-Key` and JWT.
+  * Updates enrollment and course progress records.
+  * Invalidates cache.
+  * Logs event.
+* **Response:** `{}` (Empty JSON with 200 OK)
+* **Note:** Requires valid `X-Server-Key` (e.g., `a1b2c3d4-e5f6-7890-abcd-ef1234567890`)
 
-Validate JWT token
+---
 
-Validate request body (UserId, CourseId, Action)
+### 5️⃣ GET `/Progress/videos/{userId}/{courseId}`
 
-Fetch user role from UMS (or mock if fails)
+* **Purpose:** Lists progress for all videos in a course.
+* **Parameters:** `userId`, `courseId` (path, strings)
+* **Functionality:**
 
-Perform based on Action:
+  * Validates JWT.
+  * Retrieves video progress data.
+  * Fetches video titles from CMS API (or mock data).
+* **Example:**
+  `GET /api/v1/Progress/videos/test-user-123/course-7890`
+* **Response:** JSON array of video progress details.
 
-enroll:
+---
 
-Insert/update Enrollments table
+## 🔒 Authentication Notes
 
-Initialize CourseProgress record
+* **JWT Token:**
+  Issued by UMS API, containing `sub` (UserId) and `role` claims. Must be valid and match expected audience.
 
-unenroll:
+* **X-Server-Key:**
+  Configured in `appsettings.json`, required for webhook requests.
 
-Update Enrollments status or delete records
+**Example Webhook Headers:**
 
-Invalidate cache (ProgressSummary_{userId})
+```
+Authorization: Bearer <JWT_TOKEN>
+X-Server-Key: 
+```
 
-Fetch course details (CMS API or mock)
+---
 
-Log action via IAuditLogService
+## 🚨 Error Codes
 
-Return 200 OK
+| Status Code               | Description            | Common Causes                       |
+| :------------------------ | :--------------------- | :---------------------------------- |
+| 200 OK                    | Success                | -                                   |
+| 400 Bad Request           | Invalid input          | Missing/invalid parameters or body  |
+| 401 Unauthorized          | Authentication failure | Invalid/missing JWT or X-Server-Key |
+| 403 Forbidden             | Authorization failure  | User not a Student role             |
+| 404 Not Found             | Resource not found     | Invalid UserId or CourseId          |
+| 500 Internal Server Error | Server error           | Database or API failure             |
 
+---
+
+Would you like me to convert this into a nicely styled **HTML** or **PDF** format too? I can help with that if you’d like.
 
