@@ -188,7 +188,4 @@ X-Server-Key:
 | 404 Not Found             | Resource not found     | Invalid UserId or CourseId          |
 | 500 Internal Server Error | Server error           | Database or API failure             |
 
----
-
-Would you like me to convert this into a nicely styled **HTML** or **PDF** format too? I can help with that if you’d like.
 
