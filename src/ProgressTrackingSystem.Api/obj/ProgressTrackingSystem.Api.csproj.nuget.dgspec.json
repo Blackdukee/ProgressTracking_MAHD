@@ -1,37 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SeniorYear\\.Net\\graduationproject\\ProgressTrackingSystem\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj": {}
+    "C:\\Users\\Brilliant\\Desktop\\Nodejs\\FinalProject\\agents\\ProgressTracking_MAHD\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj": {}
   },
   "projects": {
-    "C:\\SeniorYear\\.Net\\graduationproject\\ProgressTrackingSystem\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj": {
+    "C:\\Users\\Brilliant\\Desktop\\Nodejs\\FinalProject\\agents\\ProgressTracking_MAHD\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SeniorYear\\.Net\\graduationproject\\ProgressTrackingSystem\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Brilliant\\Desktop\\Nodejs\\FinalProject\\agents\\ProgressTracking_MAHD\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj",
         "projectName": "ProgressTrackingSystem.Api",
-        "projectPath": "C:\\SeniorYear\\.Net\\graduationproject\\ProgressTrackingSystem\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj",
-        "packagesPath": "C:\\Users\\nourh\\.nuget\\packages\\",
-        "outputPath": "C:\\SeniorYear\\.Net\\graduationproject\\ProgressTrackingSystem\\src\\ProgressTrackingSystem.Api\\obj\\",
+        "projectPath": "C:\\Users\\Brilliant\\Desktop\\Nodejs\\FinalProject\\agents\\ProgressTracking_MAHD\\src\\ProgressTrackingSystem.Api\\ProgressTrackingSystem.Api.csproj",
+        "packagesPath": "C:\\Users\\Brilliant\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Brilliant\\Desktop\\Nodejs\\FinalProject\\agents\\ProgressTracking_MAHD\\src\\ProgressTrackingSystem.Api\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\nourh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Brilliant\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {}
           }
         },
@@ -43,13 +36,13 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "Azure.Identity": {
               "target": "Package",
@@ -109,6 +102,10 @@
               "target": "Package",
               "version": "[9.0.1, )"
             },
+            "Swashbuckle.AspNetCore.Annotations": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
             "System.Formats.Asn1": {
               "target": "Package",
               "version": "[8.0.1, )"
@@ -137,7 +134,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

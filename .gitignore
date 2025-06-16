@@ -1,0 +1,127 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific folders
+.vscode/
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bin/
+obj/
+
+# Uncomment if you have tasks that create the project's static files in wwwroot
+#wwwroot/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNetToolSettings
+.dotnet_toolchain/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Rider
+.idea/
+*.sln.iml
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# DotCover
+*.dotCover
+
+# NCrunch
+*.ncrunch*
+
+# Coverity Scan (https://scan.coverity.com/)
+*.coverity*
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.e2e
+*.coverage
+*.coveragexml
+
+# Visual Studio Snapshot Debugger
+.snap/
+
+# CodeRush
+.cr/
+
+# Python Tools for Visual Studio (PTVS)
+__pycache__/
+*.pyc
+
+# Node.js
+node_modules/
+
+# Yarn
+.yarn/
+.yarnrc.yml
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Logs
+*.log
+
+# Database
+*.mdf
+*.ldf
+*.ndf
+
+# Azure DevOps
+*.coverage
+
+# Windows image file caches
+Thumbs.db
+Thumbs.db:encryptable
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# Exclude all files in the root except the following
+/*
+!.gitignore
+!README.md
+!LICENSE
+
+# Include all files in the src folder
+/src/**
+
+# Exclude all files in the bin and obj folders
+/bin/**
+/obj/**

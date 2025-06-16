@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authorization;
 using ProgressTrackingSystem.Middleware;
 
 namespace ProgressTrackingSystem.Extensions
@@ -16,6 +17,7 @@ namespace ProgressTrackingSystem.Extensions
         public static void UseCustomMiddleware(this WebApplication app)
         {
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<TokenValidationMiddleware>();
         }
     }
 }

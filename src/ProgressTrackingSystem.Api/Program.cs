@@ -79,35 +79,11 @@ namespace ProgressTrackingSystem
             builder.Services.AddScoped<ICmsApiService, CmsApiService>();
             builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 
-            // Configure JWT Authentication with null safety
-            var jwtIssuer = builder.Configuration["Jwt:Issuer"];
-            var jwtAudience = builder.Configuration["Jwt:Audience"];
-            var jwtSecretKey = builder.Configuration["Jwt:SecretKey"];
-
-            if (string.IsNullOrEmpty(jwtIssuer))
-                throw new InvalidOperationException("Jwt:Issuer configuration is required");
-            if (string.IsNullOrEmpty(jwtAudience))
-                throw new InvalidOperationException("Jwt:Audience configuration is required");
-            if (string.IsNullOrEmpty(jwtSecretKey))
-                throw new InvalidOperationException("Jwt:SecretKey configuration is required");
-
+       
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtIssuer,
-                    ValidAudience = jwtAudience,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(jwtSecretKey))
-                };
             });
 
             // Configure Controllers
@@ -135,28 +111,28 @@ namespace ProgressTrackingSystem
             }
             builder.Services.AddHttpContextAccessor();
 
-            var app = builder.Build();
-
-            app.UseRouting();
+            var app = builder.Build();            app.UseRouting();
+            // Our custom middleware handles token validation with UMS API
+            app.UseCustomMiddleware();
+            // Keep the built-in authentication for compatibility with [Authorize] attributes
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseRateLimiter();
-            app.UseCustomMiddleware();
             app.UseSwaggerUI(); // Use extension method from SwaggerConfig.cs
 
             app.Urls.Add("http://localhost:5004");
 
             app.MapControllers();
-            // Temporary code to generate a test token
-            var tokenGenerator = new TokenGenerator(
-                builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Issuer is not configured"),
-                builder.Configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:Audience is not configured"),
-                builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey is not configured")
-            );
-            var testToken = tokenGenerator.GenerateJwtToken("test-user-123");
-            Console.WriteLine("Generated JWT Token:");
-            Console.WriteLine(testToken);
-            // End temporary code
+            // // Temporary code to generate a test token
+            // var tokenGenerator = new TokenGenerator(
+            //     builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Issuer is not configured"),
+            //     builder.Configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:Audience is not configured"),
+            //     builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey is not configured")
+            // );
+            // var testToken = tokenGenerator.GenerateJwtToken("test-user-123");
+            // Console.WriteLine("Generated JWT Token:");
+            // Console.WriteLine(testToken);
+            // // End temporary code
 
             app.Run();
         }
