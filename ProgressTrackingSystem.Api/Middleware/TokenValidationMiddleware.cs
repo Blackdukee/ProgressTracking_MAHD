@@ -37,6 +37,7 @@ namespace ProgressTrackingSystem.Middleware
                 context.Request.Path.StartsWithSegments("/swagger") ||
                 context.Request.Path.StartsWithSegments("/swagger-ui"))
             {
+                _logger.LogInformation("Skipping authentication for path: {Path}", context.Request.Path);
                 await _next(context);
                 return;
             }
