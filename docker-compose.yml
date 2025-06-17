@@ -14,7 +14,7 @@ services:
 
   sqlserver-express-pst:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: sqlserver-express
+    container_name: sqlserver-express-pst
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "Rot@2112002"
