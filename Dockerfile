@@ -1,3 +1,5 @@
+# Multi-stage Dockerfile for ProgressTrackingSystem.Api project
+
 # Base runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
@@ -8,11 +10,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore
-COPY ["ProgressTrackingSystem.Api.csproj", "."]
-RUN dotnet restore "ProgressTrackingSystem.Api.csproj"
+COPY ["./ProgressTrackingSystem.Api/ProgressTrackingSystem.Api.csproj", "ProgressTrackingSystem.Api/"]
+RUN dotnet restore "ProgressTrackingSystem.Api/ProgressTrackingSystem.Api.csproj"
 
 # Copy remaining source and publish
-COPY . .
+COPY ./ProgressTrackingSystem.Api/. "ProgressTrackingSystem.Api/"
+WORKDIR "/src/ProgressTrackingSystem.Api"
 RUN dotnet publish "ProgressTrackingSystem.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Final runtime image
