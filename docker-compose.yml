@@ -10,7 +10,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
-      - database
+      - sqlserver-express
     networks:
       - e-learning-networks
 
