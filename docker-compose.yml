@@ -4,7 +4,7 @@ services:
   api:
     build:
       context: ./ProgressTrackingSystem.Api
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "5004:5004"
     environment:
