@@ -1,9 +1,9 @@
-version: '3.8'
+
 
 services:
   api:
     build:
-      context: ./src/ProgressTrackingSystem.Api
+      context: ./ProgressTrackingSystem.Api
       dockerfile: Dockerfile
     ports:
       - "5004:5004"
