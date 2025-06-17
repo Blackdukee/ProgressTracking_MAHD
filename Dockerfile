@@ -10,7 +10,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore
-COPY ["src/ProgressTrackingSystem.Api/ProgressTrackingSystem.Api.csproj", "ProgressTrackingSystem.Api/"]
+COPY ["./ProgressTrackingSystem.Api/ProgressTrackingSystem.Api.csproj", "ProgressTrackingSystem.Api/"]
 RUN dotnet restore "ProgressTrackingSystem.Api/ProgressTrackingSystem.Api.csproj"
 
 # Copy remaining source and publish
