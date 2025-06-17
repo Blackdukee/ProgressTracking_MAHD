@@ -16,7 +16,7 @@ namespace ProgressTrackingSystem.Controllers
     /// <summary>
     /// Controller for managing user progress data.
     /// </summary>
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/progress")]
     [ApiController]
     [Authorize]
     [SwaggerTag("APIs for tracking and retrieving user learning progress")]
