@@ -19,6 +19,7 @@ namespace ProgressTrackingSystem
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.WebHost.UseUrls("http://0.0.0.0:5004");
 
             // Configure HttpClients with null safety
             var umsBaseUrl = builder.Configuration["Ums:BaseUrl"];
@@ -79,7 +80,7 @@ namespace ProgressTrackingSystem
             builder.Services.AddScoped<ICmsApiService, CmsApiService>();
             builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 
-       
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -111,7 +112,7 @@ namespace ProgressTrackingSystem
             }
             builder.Services.AddHttpContextAccessor();
 
-            var app = builder.Build();            app.UseRouting();
+            var app = builder.Build(); app.UseRouting();
             // Our custom middleware handles token validation with UMS API
             app.UseCustomMiddleware();
             // Keep the built-in authentication for compatibility with [Authorize] attributes
@@ -120,7 +121,7 @@ namespace ProgressTrackingSystem
             app.UseRateLimiter();
             app.UseSwaggerUI(); // Use extension method from SwaggerConfig.cs
 
-            app.Urls.Add("http://localhost:5004");
+            app.Urls.Add("http://0.0.0.0:5004");
 
             app.MapControllers();
             // // Temporary code to generate a test token
