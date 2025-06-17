@@ -14,7 +14,7 @@ COPY ["./ProgressTrackingSystem.Api/ProgressTrackingSystem.Api.csproj", "Progres
 RUN dotnet restore "ProgressTrackingSystem.Api/ProgressTrackingSystem.Api.csproj"
 
 # Copy remaining source and publish
-COPY src/ProgressTrackingSystem.Api/. "ProgressTrackingSystem.Api/"
+COPY ./ProgressTrackingSystem.Api/. "ProgressTrackingSystem.Api/"
 WORKDIR "/src/ProgressTrackingSystem.Api"
 RUN dotnet publish "ProgressTrackingSystem.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
