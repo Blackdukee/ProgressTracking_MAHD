@@ -114,7 +114,6 @@ $RECYCLE.BIN/
 ~$*
 
 # Exclude all files in the root except the following
-/*
 !.gitignore
 !README.md
 !LICENSE
@@ -127,5 +126,3 @@ $RECYCLE.BIN/
 /obj/**
 
 
-!src/ProgressTrackingSystem.Api/Dockerfile
-!src/ProgressTrackingSystem.Api/docker-compose.yml
