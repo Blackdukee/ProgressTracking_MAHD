@@ -1,20 +1,18 @@
-
-
 services:
   api:
     build:
-      context: ./ProgressTrackingSystem.Api
+      context: .
       dockerfile: Dockerfile
     ports:
       - "5004:5004"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
-      - sqlserver-express
+      - sqlserver-express-pst
     networks:
-      - e-learning-networks
+      - e-learning-network
 
-  sqlserver-express:
+  sqlserver-express-pst:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: sqlserver-express
     environment:
@@ -26,9 +24,9 @@ services:
     volumes:
       - db_data:/var/opt/mssql
     networks:
-      - e-learning-networks
+      - e-learning-network
 networks:
-  e-learning-networks:
+  e-learning-network:
     external: true
 volumes:
   db_data:
