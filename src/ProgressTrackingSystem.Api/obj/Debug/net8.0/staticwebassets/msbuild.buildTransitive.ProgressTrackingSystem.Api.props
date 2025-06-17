@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\ProgressTrackingSystem.Api.props" />
-</Project>
