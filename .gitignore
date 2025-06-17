@@ -120,8 +120,12 @@ $RECYCLE.BIN/
 !LICENSE
 
 # Include all files in the src folder
-/src/**
+
 
 # Exclude all files in the bin and obj folders
 /bin/**
 /obj/**
+
+
+!src/ProgressTrackingSystem.Api/Dockerfile
+!src/ProgressTrackingSystem.Api/docker-compose.yml
