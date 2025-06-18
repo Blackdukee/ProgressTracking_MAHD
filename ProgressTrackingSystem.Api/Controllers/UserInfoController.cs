@@ -10,7 +10,7 @@ namespace ProgressTrackingSystem.Controllers
     /// <summary>
     /// Controller to demonstrate getting current user info.
     /// </summary>
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/progress/user")]
     [ApiController]
     [Produces("application/json")]
     public class UserInfoController : ControllerBase
@@ -30,7 +30,7 @@ namespace ProgressTrackingSystem.Controllers
         /// This endpoint demonstrates how to access the user information
         /// that was extracted from the token by the TokenValidationMiddleware.
         /// </remarks>
-        [HttpGet("me")]
+        [HttpGet("info")]
         [SwaggerOperation(
             Summary = "Get current user info",
             Description = "Returns the authenticated user's information from the validated token",
@@ -41,6 +41,7 @@ namespace ProgressTrackingSystem.Controllers
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "User is not authenticated")]
         public IActionResult GetCurrentUser()
         {
+            _logger.LogInformation("Retrieving current user information");
             var currentUser = HttpContext.GetCurrentUser();
             
             if (currentUser == null)
@@ -48,14 +49,16 @@ namespace ProgressTrackingSystem.Controllers
                 return Unauthorized(new { Success = false, Message = "User not authenticated" });
             }
             
+            _logger.LogInformation("Current user retrieved: {UserId}", currentUser.Id);
             return Ok(new
             {
                 Success = true,
                 User = new
                 {
                     Id = currentUser.Id,
-                    Name = currentUser.Name,
                     Email = currentUser.Email,
+                    FristName = currentUser.FirstName,
+                    LastName = currentUser.LastName,
                     Role = currentUser.Role
                 }
             });

@@ -19,6 +19,21 @@ namespace ProgressTrackingSystem.Middleware
         private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _httpClientFactory;
 
+        private class UmsUser
+        {
+            public long Id { get; set; }
+            public string Email { get; set; } = string.Empty;
+            public string Role { get; set; } = string.Empty;
+            public string FirstName { get; set; } = string.Empty;
+            public string LastName { get; set; } = string.Empty;
+        }
+
+        private class UmsValidationResponse
+        {
+            public bool Valid { get; set; }
+            public UmsUser User { get; set; } = new UmsUser();
+        }
+
         public TokenValidationMiddleware(
             RequestDelegate next, 
             ILogger<TokenValidationMiddleware> logger,
@@ -53,7 +68,7 @@ namespace ProgressTrackingSystem.Middleware
                 }
 
                 string token = authHeader.Split(' ')[1];
-                _logger.LogInformation("Received token for validation: {Token}", token);
+                
                 // Validate token with UMS service
                 var userServiceUrl = _configuration["Ums:BaseUrl"] ?? "http://3.70.227.2:5003/api/v1/ums";
                 var serverKey = _configuration["Ums:ServerKey"];
@@ -81,7 +96,7 @@ namespace ProgressTrackingSystem.Middleware
                 }
 
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var validationResult = JsonSerializer.Deserialize<TokenValidationResponse>(responseContent, new JsonSerializerOptions
+                var validationResult = JsonSerializer.Deserialize<UmsValidationResponse>(responseContent, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -94,8 +109,15 @@ namespace ProgressTrackingSystem.Middleware
                 }
 
                 // Add user info to the HttpContext items
-                context.Items["UserInfo"] = validationResult.User;
-
+                context.Items["UserInfo"] = new UserInfo
+                {
+                    Id = validationResult.User.Id.ToString(),
+                    Email = validationResult.User.Email,
+                    FirstName = validationResult.User.FirstName,
+                    LastName = validationResult.User.LastName,
+                    Role = validationResult.User.Role
+                };
+                _logger.LogInformation("Token validated successfully for user: {UserId}", validationResult.User.Id);
                 await _next(context);
             }
             catch (Exception ex)
@@ -136,7 +158,8 @@ namespace ProgressTrackingSystem.Middleware
     {
         public string Id { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
     }
 }
