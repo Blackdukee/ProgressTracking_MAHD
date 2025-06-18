@@ -20,8 +20,8 @@ namespace ProgressTrackingSystem.Extensions
                     Version = "v1",
                     Description = "API for tracking user progress and course enrollments in an e-learning platform."
                 });
-                c.AddServer(new OpenApiServer { Url = "http://3.70.227.2:5004/api/v1/progress" });
-                c.AddServer(new OpenApiServer { Url = "http://localhost:5004/api/v1/progress" });
+                c.AddServer(new OpenApiServer { Url = "http://3.70.227.2:5004" });
+                c.AddServer(new OpenApiServer { Url = "http://localhost:5004" });
 
                 // Set the comments path for the Swagger JSON and UI
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
