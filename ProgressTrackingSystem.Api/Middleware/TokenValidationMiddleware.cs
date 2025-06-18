@@ -53,7 +53,7 @@ namespace ProgressTrackingSystem.Middleware
                 }
 
                 string token = authHeader.Split(' ')[1];
-
+                _logger.LogInformation("Received token for validation: {Token}", token);
                 // Validate token with UMS service
                 var userServiceUrl = _configuration["Ums:BaseUrl"] ?? "http://3.70.227.2:5003/api/v1/ums";
                 var serverKey = _configuration["Ums:ServerKey"];
