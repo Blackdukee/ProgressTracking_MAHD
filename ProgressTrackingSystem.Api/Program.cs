@@ -85,7 +85,17 @@ namespace ProgressTrackingSystem
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            });
+            }).AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = false,
+                       ValidateAudience = false,
+                       ValidateLifetime = false,
+                       ValidateIssuerSigningKey = false,
+                       SignatureValidator = (token, parameters) => new JsonWebToken(token)
+                   };
+               });
 
             // Configure Controllers
             builder.Services.AddControllers();
@@ -96,13 +106,13 @@ namespace ProgressTrackingSystem
             builder.Services.AddAuthorization();
             builder.Services.AddCustomMiddleware();
             builder.Services.AddRateLimiter(options =>
-            {
-                options.AddFixedWindowLimiter("Api", opt =>
-                {
-                    opt.PermitLimit = 100;
-                    opt.Window = TimeSpan.FromSeconds(10);
-                });
+         {
+             options.AddFixedWindowLimiter("Api", opt =>
+                    {
+                opt.PermitLimit = 100;
+                opt.Window = TimeSpan.FromSeconds(10);
             });
+         });
 
             // Add Application Insights if configured
             var appInsightsConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
